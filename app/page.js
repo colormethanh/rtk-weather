@@ -8,6 +8,11 @@ export default function Home() {
     <main>
       <article>
         <SearchBar />
+        <div id="weather-panel-container" className="row">
+          <div
+            className="col col-12 weather-panel text-center d-flex justify-content-around"
+          ></div>
+        </div>
         <div className="modal fade" id="project-modal" tabIndex="-1">
           <div className="modal-dialog">
             <div className="modal-content">

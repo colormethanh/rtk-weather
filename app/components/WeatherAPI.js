@@ -112,6 +112,7 @@ const getWeather = async function (cityName) {
   return {
     id: uuidv4(),
     name: latLonData.name,
+    latLon: latLonData,
     currentWeather: currentWeatherData,
     fiveDayWeather: FiveDayWeatherData,
   } 
