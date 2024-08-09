@@ -25,6 +25,7 @@ export default function SearchBar() {
   });
 
   const handleFormSubmit = async () => {
+    debugger
     console.log(errors)
     console.log("submitting ", inputText);
     // Get location based on city name
@@ -62,6 +63,7 @@ export default function SearchBar() {
                   placeholder="Search a city"
                   value={inputText}
                   onChange={({target}) => setInputText(target.value)}
+                  onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
                 <button type="submit" className="btn btn-primary">Search</button>
               </div>
