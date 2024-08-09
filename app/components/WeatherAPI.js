@@ -40,6 +40,9 @@ const getFiveDayWeatherData = async function (lonLatData, units="imperial") {
   return formatFiveDayData(data.list);
 };
 
+const getRoundedAverage = value => Math.ceil((value / 8) * 100) / 100;
+
+
 const formatFiveDayData = function (data) {
   let dateSeparatedArr = [];
   let dateArr = []
@@ -78,6 +81,8 @@ const formatFiveDayData = function (data) {
 
     return dayArr.reduce((accumulator, itm, dayIndex) => {
       accumulator.temp += itm.main.temp;
+      accumulator.pressure += itm.main.temp;
+      accumulator.humidity += itm.main.humidity;
 
       // get Day of week, weather icon, and weather condition
       if (dayIndex === 0) {
@@ -91,12 +96,15 @@ const formatFiveDayData = function (data) {
 
       // if item is last item of day calc avg temp;
       if (dayIndex === 7) {
-        const avgTemp = accumulator.temp / 8;
-        const roundedTemp = Math.ceil(avgTemp * 100) / 100;
-        accumulator.temp = roundedTemp;
+        // const avgTemp = accumulator.temp / 8;
+        
+        // const roundedTemp = Math.ceil(avgTemp * 100) / 100;
+        accumulator.temp = getRoundedAverage(accumulator.temp);
+        accumulator.pressure = getRoundedAverage(accumulator.pressure);
+        accumulator.humidity = getRoundedAverage(accumulator.humidity);
       };
       return accumulator;
-    }, {"temp": 0, "weather": "", "iconCode": "", "day":""})
+    }, {"temp": 0, "pressure": 0, "humidity": 0,  "weather": "", "iconCode": "", "day":""})
   })
   return dateSeparatedArr;
 };

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Sparklines, SparklinesLine } from "react-sparklines";
 import { useSelector } from "react-redux";
 import WeatherDetails from "./WeatherDetails";
 
@@ -24,11 +23,7 @@ export default function Panel({ id }) {
           height={100}
           className="cur-weather-icon"
         />
-        {/* <div className="d-flex" style={{width: "100px", height:"61.8px"}}>
-          <Sparklines data={tempsArray}>
-            <SparklinesLine color="blue" />
-          </Sparklines>
-        </div> */}
+        
       </div>
       <WeatherDetails id={id} />
     </div>

@@ -18,7 +18,7 @@ export default function WeatherDetails ({ id }) {
             Five Day Forecast
           </a>
           <a data-bs-toggle="collapse" href={`#collapseGraphs-${id}`} role="button" aria-expanded="false" aria-controls={`collapseGraphs-${id}`}>
-            Link with href
+            Five Day Graphs
           </a>
         </div>
         <div className="collapse" id={`collapseFiveDay-${id}`}>
