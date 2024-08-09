@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react";
 import { getWeather } from "./WeatherAPI";
 import { useDispatch } from "react-redux";
@@ -8,27 +7,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-
 export default function SearchBar() {
   const [inputText, setInputText] = useState("");
   const [searchError, setSearchError] = useState(false);
   const dispatch = useDispatch();
-  yup.setLocale({
-    mixed: {
-      required: 'Required Field',
-    },
-  });
-  const weatherSchema = yup
-    .object({
-      id: yup.string().required(),
-      name: yup.string().required(),
-      latLon: yup.object().required(),
-      currentWeather: yup.object().required(),
-      fiveDayWeather: yup.array().required()
-  });
   const formSchema = yup
-  .object({
-    city: yup.string().required().min(5),
+    .object({
+      city: yup.string().required().min(5),
   });
 
   const {
@@ -53,9 +38,12 @@ export default function SearchBar() {
     } else {
       setSearchError(false);
     }
-    
+
     // update redux
     dispatch(pushLocation(weather));
+
+    // clear inputText
+    setInputText("");
   }
 
 
@@ -87,7 +75,6 @@ export default function SearchBar() {
                     <p>{`Could not find weather data for city ${inputText}! :( try again`}</p>
                 </div>      
               }
-
             </div>
           </form>
         </div>
