@@ -78,10 +78,9 @@ const formatFiveDayData = function (data) {
    * to: dateSeparatedArray  = [{day1Obj}, {day2Obj}, ...]
    */
   dateSeparatedArr = dateSeparatedArr.map((dayArr) => {
-
     return dayArr.reduce((accumulator, itm, dayIndex) => {
       accumulator.temp += itm.main.temp;
-      accumulator.pressure += itm.main.temp;
+      accumulator.pressure += itm.main.pressure;
       accumulator.humidity += itm.main.humidity;
 
       // get Day of week, weather icon, and weather condition
