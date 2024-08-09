@@ -25,9 +25,7 @@ export default function SearchBar() {
   });
 
   const handleFormSubmit = async () => {
-    debugger
-    console.log(errors)
-    console.log("submitting ", inputText);
+
     // Get location based on city name
     const weather = await getWeather(inputText);
     console.log(weather)

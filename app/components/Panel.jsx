@@ -1,7 +1,11 @@
 import Image from "next/image";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
-export default function Panel({currentWeather}) {
+export default function Panel({currentWeather, fiveDayWeather}) {
   const {temp, name, weather, iconCode} = currentWeather;
+  const tempsArray = fiveDayWeather.map(day => {
+    return day.temp
+  })
 
   return (
     <div
@@ -13,13 +17,19 @@ export default function Panel({currentWeather}) {
           <div className="weather-city">{name}</div>
           <div className="weather-condition">{weather}</div>
         </div>
-        <Image
+        {/* <Image
           src={`https://openweathermap.org/img/wn/${iconCode}@2x.png`}
           alt={`${weather} icon`}
           width={100}
           height={100}
           className="cur-weather-icon"
-        />
+        /> */}
+        <div style={{width: "100px", height:"61.8px"}}>
+          <Sparklines data={tempsArray} height={100} width={100}>
+            <SparklinesLine color="blue" />
+          </Sparklines>
+
+        </div>
       </div>
     </div>
   )

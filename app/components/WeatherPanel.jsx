@@ -7,7 +7,7 @@ export default function WeatherPanel() {
   const weatherData = useSelector((state) => state.locations.locations);
   
   const panels = weatherData.map((weather) => {
-    return <Panel key={uuidv4()} currentWeather={weather.currentWeather} />
+    return <Panel key={uuidv4()} currentWeather={weather.currentWeather} fiveDayWeather={weather.fiveDayWeather} />
   })
 
   return (
