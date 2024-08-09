@@ -13,7 +13,7 @@ export const locationsSlice = createSlice({
     },
     pushLocation: (state, action) => {
       state.locations.push(action.payload);
-    }
+    },
   }
 })
 

@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { Sparklines, SparklinesLine } from "react-sparklines";
+import { useSelector } from "react-redux";
 import WeatherDetails from "./WeatherDetails";
 
-export default function Panel({currentWeather, fiveDayWeather}) {
-  const {temp, name, weather, iconCode} = currentWeather;
-  const tempsArray = fiveDayWeather.map(day => {
-    return day.temp
-  });
+
+export default function Panel({ id }) {
+  const {temp, name, weather, iconCode} = useSelector((state) => {
+    return state.locations.locations.find((day) => day.id === id).currentWeather
+  })
 
   return (
     <div className="weather-panel row d-flex justify-content-center w-75 border">
@@ -29,7 +30,7 @@ export default function Panel({currentWeather, fiveDayWeather}) {
           </Sparklines>
         </div> */}
       </div>
-      <WeatherDetails fiveDayWeather={fiveDayWeather} />
+      <WeatherDetails id={id} />
     </div>
   )
 }

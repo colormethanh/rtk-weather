@@ -11,11 +11,14 @@ export default function SearchBar() {
   const [inputText, setInputText] = useState("");
   const [searchError, setSearchError] = useState(false);
   const dispatch = useDispatch();
+  
+  // Yup schema for validation
   const formSchema = yup
     .object({
       city: yup.string().required().min(5),
   });
 
+  // Register form validations
   const {
     register,
     handleSubmit,
@@ -24,13 +27,17 @@ export default function SearchBar() {
     resolver: yupResolver(formSchema)
   });
 
-  const handleFormSubmit = async () => {
+  const handleOnInputChange = (target) => {
+    setSearchError(false);
+    setInputText(target.value);
+  };
 
+  const handleFormSubmit = async () => {
     // Get location based on city name
     const weather = await getWeather(inputText);
     console.log(weather)
 
-    // Validate results
+    // Check if api results are empty
     if (Object.keys(weather).length === 0) {
       setSearchError(true);
       return;
@@ -60,7 +67,7 @@ export default function SearchBar() {
                   className={`form-control me-3 ${errors.city && "is-invalid"}`}
                   placeholder="Search a city"
                   value={inputText}
-                  onChange={({target}) => setInputText(target.value)}
+                  onChange={({target}) => handleOnInputChange(target)}
                   onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
                 <button type="submit" className="btn btn-primary">Search</button>
