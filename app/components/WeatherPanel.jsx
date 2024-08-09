@@ -12,12 +12,10 @@ export default function WeatherPanel() {
 
   return (
     <section className="container">
-      <div id="weather-panel-container" className="row">
-        <div
-          className="col weather-panel text-center d-flex flex-column-reverse align-items-center"
-        >
-          {panels}
-        </div>
+      <div
+        className="col weather-panels text-center d-flex flex-column-reverse align-items-center"
+      >
+        {panels}
       </div>
     </section>
     
