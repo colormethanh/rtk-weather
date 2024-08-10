@@ -1,12 +1,13 @@
 import FiveDayWeather from "./FiveDayWeather";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Graphs from "./Graphs";
+import Modal from "./Modal";
 
 
 export default function WeatherDetails ({ id }) {
   const weatherData = useSelector((state) => {
     return state.locations.locations.find((day) => day.id === id)
-  })
+  });
 
   if (!weatherData) return <h1> Could not find weather data </h1>
 
@@ -33,6 +34,18 @@ export default function WeatherDetails ({ id }) {
             </div>
           </div>
         </div>
+      <div className="text-start"> 
+      <Modal
+        action={() =>{
+          localStorage.setItem("RTKWEATHER_DEFAULTLOCATION", JSON.stringify(weatherData.latLon))
+        }} 
+        text={"set Default"}
+        title={"Set as default location?"}
+        body={`Would you like to set "${weatherData.name}" location as your default location?`}
+        closeText="No"
+        submitText="Yes please!"
+      />        
+      </div>
       </>
   )
 } 

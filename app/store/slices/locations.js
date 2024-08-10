@@ -5,6 +5,7 @@ export const locationsSlice = createSlice({
   initialState: {
     currentLocation: null,
     locations: [],
+    defaultLocation: null,
   },
   reducers: {
     setCurrentLocation: (state, action) => {
@@ -13,9 +14,12 @@ export const locationsSlice = createSlice({
     pushLocation: (state, action) => {
       state.locations.push(action.payload);
     },
+    setDefaultLocation: (state, action) => {
+      state.defaultLocation = action.payload; 
+    }
   }
 })
 
-export const { setCurrentLocation, pushLocation } = locationsSlice.actions;
+export const { setCurrentLocation, pushLocation, setDefaultLocation } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

@@ -95,16 +95,18 @@ const formatFiveDayData = function (data) {
   return dateSeparatedArr;
 };
 
-const getWeather = async function (cityName = "", latLon = null) {
+const getWeather = async function ( cityName, latLon = null) {
+  console.log("LATLON : ", latLon)
+  console.log(cityName);
   let latLonData;
-  if (cityName) {
+  if (cityName !== "") {
     latLonData = await getLatLonData(cityName);
 
     if (Object.keys(latLonData).length === 0) {
       return {}
     }
   } else {
-    latLonData = {lat: latLon.latitude, lon: latLon.longitude}
+    latLonData = {lat: latLon.lat, lon: latLon.lon}
   }
   const currentWeatherData = await getCurrentWeatherData(latLonData);
   const FiveDayWeatherData = await getFiveDayWeatherData(latLonData);

@@ -1,16 +1,17 @@
 "use client"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLocation } from "../store/slices/locations";
 import { getWeather } from "./WeatherAPI";
 
 export default function AppNavbar() {
   const dispatch = useDispatch();
+  const defaultLocation = useSelector(state => state.locations.defaultLocation);
 
   const onSuccess = async (data) => {
     try {
       if (!data) return 
       const { latitude, longitude } = data.coords;
-      const weatherData = await getWeather("", {latitude, longitude})
+      const weatherData = await getWeather("", {lat : latitude, lon: longitude})
       dispatch(setCurrentLocation(weatherData));
     } catch (e) {
       console.log(e);
@@ -35,7 +36,7 @@ export default function AppNavbar() {
         <a className="navbar-brand ms-3" href="#">RTK Weather</a>
         <ul className="navbar-nav mx-auto">
           <li className="nav-item navbar-text" id="default-city-text">
-            Default location: Not set
+            Default location: {defaultLocation.name? defaultLocation.name : "Not Set"}
           </li>
         </ul>
         <a
