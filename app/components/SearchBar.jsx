@@ -6,17 +6,33 @@ import { pushLocation } from "../store/slices/locations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import Error from "./ErrorMessage";
+
+const errorList = {
+  apiFail: "There was error with your api",
+  type: "Wrong data type"
+}
 
 export default function SearchBar() {
   const [inputText, setInputText] = useState("");
   const [searchError, setSearchError] = useState(false);
   const dispatch = useDispatch();
+  const [ errorMessage, setErrorMessage ] = useState("");
   
   // Yup schema for validation
   const formSchema = yup
     .object({
-      city: yup.string().required().min(5),
+      city: yup.string().required().min(3),
   });
+
+  const weatherSchema = yup 
+    .object({
+      id: yup.string().required(),
+      name: yup.string().required(), 
+      latLon: yup.object().required(), 
+      currentWeather: yup.object().required(), 
+      fiveDayWeather: yup.array().required()
+    })
 
   // Register form validations
   const {
@@ -27,29 +43,30 @@ export default function SearchBar() {
     resolver: yupResolver(formSchema)
   });
 
+  // Change state value and reset search errors
   const handleOnInputChange = (target) => {
     setSearchError(false);
     setInputText(target.value);
   };
 
   const handleFormSubmit = async () => {
+    try {
     // Get location based on city name
     const weather = await getWeather(inputText);
-    console.log(weather)
-
-    // Check if api results are empty
-    if (Object.keys(weather).length === 0) {
-      setSearchError(true);
-      return;
-    } else {
-      setSearchError(false);
-    }
-
+    if (!weather) setErrorMessage(errorList.apiFail);
+    
+    await weatherSchema.validate(weather);
+    
     // update redux
     dispatch(pushLocation(weather));
-
+    
     // clear inputText
     setInputText("");
+    } catch (e) {
+      console.log(e.errors);
+      setSearchError(true);
+      setErrorMessage(errorList.type);
+    }
   }
 
 
@@ -73,14 +90,10 @@ export default function SearchBar() {
                 <button type="submit" className="btn btn-primary">Search</button>
               </div>
               {errors.city && 
-                <div className="text-danger">
-                    <p>{errors.city.message}</p>
-                </div>      
+                <Error message={errors.city} />      
               }
               {searchError && 
-                <div className="text-danger">
-                    <p>{`Could not find weather data for city ${inputText}! :( try again`}</p>
-                </div>      
+                <Error message={errorMessage} />     
               }
             </div>
           </form>

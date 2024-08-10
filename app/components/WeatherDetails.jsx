@@ -21,14 +21,16 @@ export default function WeatherDetails ({ id }) {
             Five Day Graphs
           </a>
         </div>
-        <div className="collapse" id={`collapseFiveDay-${id}`}>
-          <div className="card card-body mb-3">
-            <FiveDayWeather id={id}/>
+        <div className="accordion" id={`accordion-${id}`}>
+          <div className="collapse" id={`collapseFiveDay-${id}`} data-bs-parent={`#accordion-${id}`}>
+            <div className="card card-body mb-3">
+              <FiveDayWeather id={id} />
+            </div>
           </div>
-        </div>
-        <div className="collapse" id={`collapseGraphs-${id}`}>
-          <div className="card card-body mb-3">
-            <Graphs id={id} />
+          <div className="collapse" id={`collapseGraphs-${id}`} data-bs-parent={`#accordion-${id}`}>
+            <div className="card card-body mb-3">
+              <Graphs id={id} />
+            </div>
           </div>
         </div>
       </>

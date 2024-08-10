@@ -31,7 +31,7 @@ const getCurrentWeatherData = async function (lonLatData, unit="imperial") {
 };
 
 const getFiveDayWeatherData = async function (lonLatData, units="imperial") {
-  const {lon, lat, name,} = lonLatData;
+  const {lon, lat, name = ""} = lonLatData;
 
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${APIKEY}`;
   const data = await fetchData(url);
@@ -45,26 +45,13 @@ const getRoundedAverage = value => Math.ceil((value / 8) * 100) / 100;
 
 const formatFiveDayData = function (data) {
   let dateSeparatedArr = [];
-  let dateArr = []
 
-  /**
-   * Formatting logic:
-   * Loop through data array (40 items where every 8 items is 1 day) while keep track of number items traversed
-   * We append each item to a temp array (dateArr)
-   * Everytime we've traversed 8 items (1 day) we push the temp array to the output array (dateSeparatedArr)
-   */
-  data.forEach((itm, index) => {
-    const itmCt = index + 1;
-    // if itemCt is devisable by 8, it means it is the last itm for that day 
-    if ((itmCt % 8) === 0){
-      dateArr.push(itm);
-      dateSeparatedArr.push(dateArr);
-      dateArr = [];
-      return
-    }
-    dateArr.push(itm);
-    return
-  });
+  // Slice every chunks of 8 items from data array and append to dateSeperatedArr
+  for (let i = 0; i < data.length; i += 8) {
+    const chunk = data.slice(i, i + 8);
+    dateSeparatedArr.push(chunk);
+  }
+
   
   /**
    * Formatting logic:
@@ -108,17 +95,23 @@ const formatFiveDayData = function (data) {
   return dateSeparatedArr;
 };
 
-const getWeather = async function (cityName) {
-  const latLonData = await getLatLonData(cityName);
-  if (Object.keys(latLonData).length === 0) {
-    return {}
+const getWeather = async function (cityName = "", latLon = null) {
+  let latLonData;
+  if (cityName) {
+    latLonData = await getLatLonData(cityName);
+
+    if (Object.keys(latLonData).length === 0) {
+      return {}
+    }
+  } else {
+    latLonData = {lat: latLon.latitude, lon: latLon.longitude}
   }
   const currentWeatherData = await getCurrentWeatherData(latLonData);
   const FiveDayWeatherData = await getFiveDayWeatherData(latLonData);
-  
+
   return {
     id: uuidv4(),
-    name: latLonData.name,
+    name: currentWeatherData.name,
     latLon: latLonData,
     currentWeather: currentWeatherData,
     fiveDayWeather: FiveDayWeatherData,

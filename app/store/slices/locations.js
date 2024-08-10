@@ -5,7 +5,6 @@ export const locationsSlice = createSlice({
   initialState: {
     currentLocation: null,
     locations: [],
-    activeLocation: null,
   },
   reducers: {
     setCurrentLocation: (state, action) => {

@@ -1,33 +1,32 @@
 "use client"
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../store/slices/locations";
-
+import { getWeather } from "./WeatherAPI";
 
 export default function AppNavbar() {
-
-  const currentLocation = useSelector((state) => {state.locations.currentLocation})
-
   const dispatch = useDispatch();
-  
-  const handleSetLocation = () => {
-    console.log("Handling Location");
-    const geolocation = navigator.geolocation;
-    if (!geolocation) return alert("Geolocation is not supported. Sorry!");
-  
-    const onSuccess = (data) => {
-      console.log(data);
+
+  const onSuccess = async (data) => {
+    try {
+      if (!data) return 
       const { latitude, longitude } = data.coords;
-      console.log({latitude, longitude})
-      dispatch(setCurrentLocation({latitude, longitude}));
-    };
-    const onError = (error) => {
-      console.log(error)
-    };
-
-    geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy:true});
-
+      const weatherData = await getWeather("", {latitude, longitude})
+      dispatch(setCurrentLocation(weatherData));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
+  const onError = (error) => {
+    console.log(error)
+  };
+  
+  const handleSetLocation = (navigator, onSuccess, onError) => {
+    const geolocation = navigator.geolocation;
+    if (!geolocation) return alert("Geolocation is not supported. Sorry!");
+
+    geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy:true});
+  };
 
   return (
     <nav
@@ -44,7 +43,7 @@ export default function AppNavbar() {
           type="button"
           id="cur-loc-btn"
           href="#"
-          onClick={handleSetLocation}
+          onClick={() => handleSetLocation(navigator, onSuccess, onError)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
