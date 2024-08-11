@@ -82,9 +82,6 @@ const formatFiveDayData = function (data) {
 
       // if item is last item of day calc avg temp;
       if (dayIndex === 7) {
-        // const avgTemp = accumulator.temp / 8;
-        
-        // const roundedTemp = Math.ceil(avgTemp * 100) / 100;
         accumulator.temp = getRoundedAverage(accumulator.temp);
         accumulator.pressure = getRoundedAverage(accumulator.pressure);
         accumulator.humidity = getRoundedAverage(accumulator.humidity);
@@ -96,7 +93,6 @@ const formatFiveDayData = function (data) {
 };
 
 const getWeather = async function ( cityName, latLon = null) {
-  console.log("LATLON : ", latLon)
   console.log(cityName);
   let latLonData;
   if (cityName !== "") {

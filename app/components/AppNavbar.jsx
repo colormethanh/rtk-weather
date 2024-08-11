@@ -36,7 +36,7 @@ export default function AppNavbar() {
         <a className="navbar-brand ms-3" href="#">RTK Weather</a>
         <ul className="navbar-nav mx-auto">
           <li className="nav-item navbar-text" id="default-city-text">
-            Default location: {defaultLocation.name? defaultLocation.name : "Not Set"}
+            Default location: {defaultLocation ? defaultLocation.name : "Not Set"}
           </li>
         </ul>
         <a

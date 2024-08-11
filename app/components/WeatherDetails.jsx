@@ -1,10 +1,12 @@
 import FiveDayWeather from "./FiveDayWeather";
 import { useSelector, useDispatch } from "react-redux";
+import { setDefaultLocation } from "../store/slices/locations";
 import Graphs from "./Graphs";
 import Modal from "./Modal";
 
 
 export default function WeatherDetails ({ id }) {
+  const dispatch = useDispatch();
   const weatherData = useSelector((state) => {
     return state.locations.locations.find((day) => day.id === id)
   });
@@ -37,7 +39,8 @@ export default function WeatherDetails ({ id }) {
       <div className="text-start"> 
       <Modal
         action={() =>{
-          localStorage.setItem("RTKWEATHER_DEFAULTLOCATION", JSON.stringify(weatherData.latLon))
+          localStorage.setItem("RTKWEATHER_DEFAULTLOCATION", JSON.stringify(weatherData))
+          dispatch(setDefaultLocation(weatherData))
         }} 
         text={"set Default"}
         title={"Set as default location?"}
