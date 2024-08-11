@@ -32,6 +32,5 @@ export default function WeatherPanel() {
         {panels}
       </div>
     </section>
-    
   )
 }

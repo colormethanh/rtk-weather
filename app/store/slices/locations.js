@@ -12,12 +12,10 @@ export const locationsSlice = createSlice({
       state.currentLocation = action.payload;
     },
     pushLocation: (state, action) => {
-      
-      const existInState = state.locations.find((itm) => {itm.id === action.payload.id});
-      debugger
+      const existInState = state.locations.find(itm => itm.id === action.payload.id);
       if (existInState) {
-        console.log('It exists')
-      }
+        return
+      } 
       state.locations.push(action.payload);
     },
     setDefaultLocation: (state, action) => {
