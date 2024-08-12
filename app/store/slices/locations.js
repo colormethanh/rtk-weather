@@ -1,21 +1,19 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const locationsSlice = createSlice({
   name: "locations",
   initialState: {
     currentLocation: null,
-    locations: [],
     defaultLocation: null,
+    locations: [],
   },
   reducers: {
     setCurrentLocation: (state, action) => {
       state.currentLocation = action.payload;
     },
     pushLocation: (state, action) => {
-      const existInState = state.locations.find(itm => itm.id === action.payload.id);
-      if (existInState) {
-        return
-      } 
+      const locationInState = state.locations.find(itm => itm.id === action.payload.id);
+      if (locationInState) return;
       state.locations.push(action.payload);
     },
     setDefaultLocation: (state, action) => {

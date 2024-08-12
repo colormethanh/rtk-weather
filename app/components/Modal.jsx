@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function Modal ({action, text, title = "Modal", body= "", closeText = "Close", submitText="Save Changes"}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
     e.preventDefault()
@@ -17,7 +16,7 @@ export default function Modal ({action, text, title = "Modal", body= "", closeTe
 
   return (
     <>
-      <a href="" onClick={(e) => {handleShow(e)}}>
+      <a className="no-decorations" href="" onClick={(e) => {handleShow(e)}}>
         {text}
       </a>
 

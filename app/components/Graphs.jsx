@@ -2,12 +2,7 @@ import { Sparklines, SparklinesLine, SparklinesReferenceLine } from "react-spark
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Graphs ({id}) {
-
-  // returns and an array of objects representing a weather for one day
-  const fiveDayWeather = useSelector((state) => {
-    return state.locations.locations.find((day) => day.id === id).fiveDayWeather
-  })
+export default function Graphs ({ fiveDayWeather }) {
 
   // Reduce five day weather to only an object of temp, humidity, pressure arrays.  
   const graphData = fiveDayWeather.reduce((accum, day) => {

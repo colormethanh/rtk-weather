@@ -2,10 +2,7 @@ import {v4 as uuidv4} from "uuid";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 
-export default function FiveDayWeather({ id }) {
-  const fiveDayWeather = useSelector((state) => {
-    return state.locations.locations.find((day) => day.id === id).fiveDayWeather
-  });
+export default function FiveDayWeather({ fiveDayWeather }) {
 
   const dayBoxes = fiveDayWeather.map((day) => {
     return <div key={uuidv4()} className="five-day-box col"> 
