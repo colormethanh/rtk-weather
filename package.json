@@ -23,5 +23,9 @@
     "react-sparklines": "^1.7.0",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/react-sparklines": "^1.7.5",
+    "@types/uuid": "^10.0.0"
   }
 }

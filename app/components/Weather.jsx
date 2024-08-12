@@ -1,11 +1,11 @@
 import FiveDayWeather from "./FiveDayWeather";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setDefaultLocation } from "../store/slices/locations";
 import Graphs from "./Graphs";
 import Modal from "./Modal";
 
 
-export default function WeatherDetails ({ weatherDetails }) {
+export default function Weather ({ weatherDetails }) {
   const dispatch = useDispatch();
 
   return (
@@ -54,5 +54,5 @@ export default function WeatherDetails ({ weatherDetails }) {
         />        
       </div>
       </>
-  )
+  );
 } 

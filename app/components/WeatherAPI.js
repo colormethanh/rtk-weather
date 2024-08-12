@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const APIKEY = "deecee58f4daa55a503c09ae97c1d3ab";
+
 const fetchData = async (url) => {
   const resp = await fetch(url);
   const data = await resp.json();
@@ -19,14 +20,14 @@ const getLatLonData = async function (cityName) {
 };
 
 const getCurrentWeatherData = async function (lonLatData, unit="imperial") {
-  const {lon, lat, name,} = lonLatData;
-  const returnData = {}
+  const {lon, lat} = lonLatData;
+  const weatherData = {}
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${APIKEY}`
   const data = await fetchData(url);
-  returnData.name = data.name;
-  returnData.temp = data.main.temp;
-  const {description, icon} = data.weather[0];
-  const weatherData = {...returnData, weather: description, iconCode: icon};
+  weatherData.name = data.name;
+  weatherData.temp = data.main?.temp;
+  weatherData.description = data?.weather[0]?.description;
+  weatherData.iconCode = data.weather[0]?.icon;
   return weatherData; 
 };
 
@@ -44,28 +45,18 @@ const getRoundedAverage = value => Math.ceil((value / 8) * 100) / 100;
 
 
 const formatFiveDayData = function (data) {
-  let dateSeparatedArr = [];
+  let days = [];
 
-  // Slice every chunks of 8 items from data array and append to dateSeperatedArr
+  // Slice every chunks of 8 items from data array and append to days
   for (let i = 0; i < data.length; i += 8) {
     const chunk = data.slice(i, i + 8);
-    dateSeparatedArr.push(chunk);
-  }
+    days.push(chunk);
+  };
 
-  
-  /**
-   * Formatting logic:
-   * Now that we have an array where each day is an index inside an array,
-   * the goal now is to reduce each index in the day ARRAY to be a single day OBJECT
-   * on every loop we += item temp to the temp of the accumulator (which is an obj), to be averaged later
-   * The first index of the day is used to get the day of the week and weather condition
-   * The last index of the day is used to calculated the average temp of that day
-   * 
-   * from: dateSeparatedArray = [[day1data, day1data, day1data], [day2data, day2data], ...]
-   * to: dateSeparatedArray  = [{day1Obj}, {day2Obj}, ...]
-   */
-  dateSeparatedArr = dateSeparatedArr.map((dayArr) => {
+  // Re-assign days to be an array of objects
+  days = days.map((dayArr) => {
     return dayArr.reduce((accumulator, itm, dayIndex) => {
+      // Total temp, pressure, humidity to be averaged later
       accumulator.temp += itm.main.temp;
       accumulator.pressure += itm.main.pressure;
       accumulator.humidity += itm.main.humidity;
@@ -89,21 +80,20 @@ const formatFiveDayData = function (data) {
       return accumulator;
     }, {"temp": 0, "pressure": 0, "humidity": 0,  "weather": "", "iconCode": "", "day":""})
   })
-  return dateSeparatedArr;
+  return days;
 };
 
-const getWeather = async function ( cityName, latLon = null) {
-  console.log(cityName);
+const getWeather = async function (cityName, latLon = null) {
   let latLonData;
+
+  // If city name is not empty getLonLat data via apiCall else create latLonObject 
   if (cityName !== "") {
     latLonData = await getLatLonData(cityName);
-
-    if (Object.keys(latLonData).length === 0) {
-      return {}
-    }
+    if (Object.keys(latLonData).length === 0) {};
   } else {
     latLonData = {lat: latLon.lat, lon: latLon.lon}
   }
+
   const currentWeatherData = await getCurrentWeatherData(latLonData);
   const FiveDayWeatherData = await getFiveDayWeatherData(latLonData);
 
