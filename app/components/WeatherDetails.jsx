@@ -21,12 +21,12 @@ export default function WeatherDetails ({ weatherDetails }) {
         <div className="accordion" id={`accordion-${weatherDetails.id}`}>
           <div className="collapse" id={`collapseFiveDay-${weatherDetails.id}`} data-bs-parent={`#accordion-${weatherDetails.id}`}>
             <div className="card card-body mb-3">
-              <FiveDayWeather id={weatherDetails.id} FiveDayWeather={weatherDetails.FiveDayWeather} />
+              <FiveDayWeather fiveDayWeather={weatherDetails.fiveDayWeather} />
             </div>
           </div>
-          <div className="collapse" id={`collapseGraphs-${id}`} data-bs-parent={`#accordion-${id}`}>
+          <div className="collapse" id={`collapseGraphs-${weatherDetails.id}`} data-bs-parent={`#accordion-${weatherDetails.id}`}>
             <div className="card card-body mb-3">
-              <Graphs id={weatherDetails.id} fiveDayWeather={weatherDetails.fiveDayWeatherDetails}/>
+              <Graphs fiveDayWeather={weatherDetails.fiveDayWeather}/>
             </div>
           </div>
         </div>

@@ -1,9 +1,8 @@
 import {v4 as uuidv4} from "uuid";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 
 export default function FiveDayWeather({ fiveDayWeather }) {
-
+  debugger
   const dayBoxes = fiveDayWeather.map((day) => {
     return <div key={uuidv4()} className="five-day-box col"> 
         <div className="weather-condition-sm">{day.weather}</div>

@@ -1,5 +1,4 @@
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from "react-sparklines";
-import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Graphs ({ fiveDayWeather }) {
